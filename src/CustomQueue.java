@@ -70,7 +70,7 @@ public class CustomQueue { // Queue data structure
                 postfix.append(c);
             } else if (c == ' ') {
                 continue;
-            } else if (c == '+' || c == '-' || c == '*' || c == '/') {
+            } else if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^' || c == '%') {
                 while (!stack.isEmpty() && stack.getPrecedence(stack.peek()) >= stack.getPrecedence(c)) {
                     postfix.append(" ").append(stack.pop());
                 }
@@ -149,6 +149,9 @@ class CustomStack { // Stack data structure
             case '*':
             case '/':
                 return 2;
+            case '^': // Agregado para la potencia
+            case '%':
+                return 3;
         }
         return 0; // Default for other characters
     }

@@ -12,14 +12,14 @@ public class ResultStack {
             if (isNumeric(token)) {
                 double value = Double.parseDouble(token);
                 stack.push(value);
-                System.out.println("Valor en la pila: " + value);
+                //System.out.println("Valor en la pila: " + value);
             } else {
                 char operator = token.charAt(0);
                 double operand2 = stack.pop();
                 double operand1 = stack.pop();
                 double result = performOperation(operand1, operand2, operator);
                 stack.push(result);
-                System.out.println("Operación: " + operand1 + " " + operator + " " + operand2 + " = " + result);
+                //System.out.println("Operación: " + operand1 + " " + operator + " " + operand2 + " = " + result);
             }
         }
     }
@@ -54,14 +54,19 @@ public class ResultStack {
                 } else {
                     throw new ArithmeticException("División por cero");
                 }
+            case '^': 
+                return Math.pow(operand1, operand2);
+            case '%': 
+                if (operand2 != 0) {
+                    return operand1 % operand2;
+                } else {
+                    throw new ArithmeticException("Módulo por cero");
+                }
             default:
-                System.out.println(operator);
                 throw new IllegalArgumentException("Operador no válido: " + operator);
         }
     }
 }
-
-
 
 class DoubleStack {
     private double[] elements;
