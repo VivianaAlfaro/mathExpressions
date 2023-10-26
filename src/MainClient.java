@@ -2,7 +2,7 @@ public class MainClient { //Main class client
 
     public static void main(String[] args) {
 
-        String infixExpression = "5+4*5-(6*5)+2+(10%5)"; // This show be the entry from the user
+        String infixExpression = "(1+3) * 3 & 4 | (5^2) | 6 & 7 % 2"; // This show be the entry from the user
 
         // Instance of CustomQueue
         String postfixExpression = CustomQueue.infixToPostfix(infixExpression); //Convert the infixExpression on postfixExpression

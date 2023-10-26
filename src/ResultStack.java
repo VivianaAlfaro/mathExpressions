@@ -42,31 +42,79 @@ public class ResultStack {
 
     private double performOperation(double operand1, double operand2, char operator) {
         switch (operator) {
-            case '+':
+            case '+': 
                 return operand1 + operand2;
             case '-':
                 return operand1 - operand2;
-            case '*':
+            case '*': //Mult
                 return operand1 * operand2;
-            case '/':
+            case '/': //Divition
                 if (operand2 != 0) {
                     return operand1 / operand2;
                 } else {
                     throw new ArithmeticException("División por cero");
                 }
-            case '^': 
+            case 'E': //Exp
                 return Math.pow(operand1, operand2);
-            case '%': 
+            case '%': //Module
                 if (operand2 != 0) {
                     return operand1 % operand2;
                 } else {
                     throw new ArithmeticException("Módulo por cero");
                 }
+            case '&': // AND
+                return performLogicalAnd(operand1, operand2);
+            case '|': // OR
+                return  performLogicalOr(operand1, operand2);
+            case '!': // NOT
+                return performLogicalNot(operand1);
+            case '^': // XOR
+                return performLogicalXOR(operand1, operand2);
             default:
                 throw new IllegalArgumentException("Operador no válido: " + operator);
         }
     }
+
+    private double performLogicalAnd(double operand1, double operand2) {
+        int intOperand1 = (int) operand1;
+        int intOperand2 = (int) operand2;
+    
+        int result = intOperand1 & intOperand2; // "AND" operation bit by bit
+        double decimalResult = (double) result;
+    
+        return decimalResult;
+    }
+    
+    private double performLogicalOr(double operand1, double operand2) {
+        int intOperand1 = (int) operand1;
+        int intOperand2 = (int) operand2;
+    
+        int result = intOperand1 | intOperand2; // "OR" operation bit by bit
+        double decimalResult = (double) result;
+    
+        return decimalResult;
+    }
+    
+    private double performLogicalNot(double operand1) {
+        int intOperand1 = (int) operand1;
+    
+        int result = ~intOperand1; // "NOT" operation bit by bit
+        double decimalResult = (double) result;
+    
+        return decimalResult;
+    }
+    
+    private double performLogicalXOR(double operand1, double operand2) {
+        int intOperand1 = (int) operand1;
+        int intOperand2 = (int) operand2;
+    
+        int result = intOperand1 ^ intOperand2;  // "XOR" operation bit by bit
+        double decimalResult = (double) result;
+    
+        return decimalResult;
+    }
 }
+
 
 class DoubleStack {
     private double[] elements;
