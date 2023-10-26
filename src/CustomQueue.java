@@ -1,10 +1,10 @@
-public class CustomQueue { // Queue data structure 
+public class CustomQueue { // Queue data structure
     private String[] elements;
     private int front, rear, size;
 
     public CustomQueue(int capacity) { // receives the length of the infix expression
-        size = capacity; // Capacity es le length 
-        elements = new String[capacity]; 
+        size = capacity;
+        elements = new String[capacity];
         front = rear = -1;
     }
 
@@ -16,7 +16,7 @@ public class CustomQueue { // Queue data structure
         return (front == -1);
     }
 
-    public void enqueue(String item) { //Adds an item (the element) to the queue if it is not full. 
+    public void enqueue(String item) { //Adds an item (the element) to the queue if it is not full.
         if (isFull()) {
             System.out.println("La cola está llena. No se puede agregar más elementos.");
             return;
@@ -26,7 +26,7 @@ public class CustomQueue { // Queue data structure
             front = 0;
         }
         
-        elements[++rear] = item; // Add the idem
+        elements[++rear] = item;
     }
 
     public String dequeue() { // Removes and returns the element at the front of the queue if it is not empty.
@@ -47,26 +47,24 @@ public class CustomQueue { // Queue data structure
     }
 
     public int size() { // Calculates the size of the queue
-        //Used to verify if everything is ok (test)
         if (isEmpty()) {
             return 0;
         }
         return rear - front + 1;
     }
 
-    public String peek() { //Returns the element at the front of the queue without deleting it.
+    public String peek() { //Returns the element at the front of the queue without deleting it
         if (isEmpty()) {
             System.out.println("La cola está vacía. No hay elementos para consultar.");
             return null;
         }
         return elements[front];
     }
-
-    public static String infixToPostfix(String infix) { //Converts the expression in infix notation to postfix notation
-        // It uses CustomStack
+    
+    public static String infixToPostfix(String infix) { //Convert the infixExpression into a postfixExpression
         StringBuilder postfix = new StringBuilder();
         CustomStack stack = new CustomStack(infix.length());
-
+    
         for (char c : infix.toCharArray()) {
             if (Character.isDigit(c)) {
                 postfix.append(c);
@@ -77,6 +75,7 @@ public class CustomQueue { // Queue data structure
                     postfix.append(" ").append(stack.pop());
                 }
                 stack.push(c);
+                postfix.append(" ");
             } else if (c == '(') {
                 stack.push(c);
             } else if (c == ')') {
@@ -86,13 +85,14 @@ public class CustomQueue { // Queue data structure
                 stack.pop();
             }
         }
-
+    
         while (!stack.isEmpty()) {
             postfix.append(" ").append(stack.pop());
         }
-
+    
         return postfix.toString();
     }
+    
 
     public static CustomQueue postfixToQueue(String postfix) { //Splits a postfix expression into tokens and places them in a queue
         CustomQueue queue = new CustomQueue(postfix.length());
@@ -110,13 +110,13 @@ class CustomStack { // Stack data structure
     private char[] elements;
     private int top;
 
-    public CustomStack(int capacity) {
+    public CustomStack(int capacity) { 
         elements = new char[capacity]; // Add one by one all the elements of the infixExpression
         top = -1;
     }
 
-    public void push(char item) {
-        elements[++top] = item;
+    public void push(double result) {
+        elements[++top] = (char) result;
     }
 
     public char pop() {
@@ -137,6 +137,10 @@ class CustomStack { // Stack data structure
         return top == -1;
     }
 
+    public int size() {
+        return top + 1; // Calcula el tamaño en función de top
+    }
+
     public int getPrecedence(char operator) {
         switch (operator) {
             case '+':
@@ -147,5 +151,9 @@ class CustomStack { // Stack data structure
                 return 2;
         }
         return 0; // Default for other characters
+    }
+
+    public static int performOperation(int operand1, int operand2, char charAt) {
+        return 0;
     }
 }
