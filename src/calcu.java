@@ -18,7 +18,7 @@ public class calcu {
     private static void createAndShowGUI() {
         JFrame frame = new JFrame("Calculadora");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 400);
+        frame.setSize(400, 500);
         frame.setLayout(new BorderLayout());
 
         // Panel para la información del usuario
