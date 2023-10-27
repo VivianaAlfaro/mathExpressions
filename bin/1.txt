@@ -1,37 +1,69 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class CustomQueue {
-    private List<String> elements;
-    
-    public CustomQueue() {
-        elements = new ArrayList<>();
-    }
-    
-    public void enqueue(String item) {
-        elements.add(item);
-    }
-    
-    public String dequeue() {
-        if (!isEmpty()) {
-            String item = elements.get(0);
-            elements.remove(0);
-            return item;
-        }
-        return null; // Return null for an empty queue
-    }
-    
-    public boolean isEmpty() {
-        return elements.isEmpty();
-    }
-    
-    public int size() {
-        return elements.size();
+    private String[] elements;
+    private int front, rear, size;
+
+    public CustomQueue(int capacity) {
+        size = capacity;
+        elements = new String[capacity];
+        front = rear = -1;
     }
 
-    public static String infixToPostfix(String infix) {
+    public boolean isFull() {
+        return (rear == size - 1);
+    }
+
+    public boolean isEmpty() {
+        return (front == -1);
+    }
+
+    public void enqueue(String item) {
+        if (isFull()) {
+            System.out.println("La cola está llena. No se puede agregar más elementos.");
+            return;
+        }
+        
+        if (isEmpty()) {
+            front = 0;
+        }
+        
+        elements[++rear] = item;
+    }
+
+    public String dequeue() {
+        if (isEmpty()) {
+            System.out.println("La cola está vacía. No se puede eliminar ningún elemento.");
+            return null;
+        }
+
+        String item = elements[front];
+        
+        if (front == rear) {
+            front = rear = -1;
+        } else {
+            front++;
+        }
+        
+        return item;
+    }
+
+    public int size() {
+        if (isEmpty()) {
+            return 0;
+        }
+        return rear - front + 1;
+    }
+
+    public String peek() {
+        if (isEmpty()) {
+            System.out.println("La cola está vacía. No hay elementos para consultar.");
+            return null;
+        }
+        return elements[front];
+    }
+
+    public static String infixToPostfix(String infix) { //Convert the infixExpression into a postfixExpression
         StringBuilder postfix = new StringBuilder();
-        CustomStack stack = new CustomStack();
+        CustomStack stack = new CustomStack(infix.length());
 
         for (char c : infix.toCharArray()) {
             if (Character.isDigit(c)) {
@@ -39,7 +71,7 @@ public class CustomQueue {
             } else if (c == ' ') {
                 continue;
             } else if (c == '+' || c == '-' || c == '*' || c == '/') {
-                while (!stack.isEmpty() && getPrecedence(stack.peek()) >= getPrecedence(c)) {
+                while (!stack.isEmpty() && stack.getPrecedence(stack.peek()) >= stack.getPrecedence(c)) {
                     postfix.append(" ").append(stack.pop());
                 }
                 stack.push(c);
@@ -61,7 +93,7 @@ public class CustomQueue {
     }
 
     public static CustomQueue postfixToQueue(String postfix) {
-        CustomQueue queue = new CustomQueue();
+        CustomQueue queue = new CustomQueue(postfix.length());
         String[] tokens = postfix.split(" ");
 
         for (String token : tokens) {
@@ -70,8 +102,40 @@ public class CustomQueue {
 
         return queue;
     }
+}
 
-    private static int getPrecedence(char operator) {
+class CustomStack {
+    private char[] elements;
+    private int top;
+
+    public CustomStack(int capacity) {
+        elements = new char[capacity];
+        top = -1;
+    }
+
+    public void push(char item) {
+        elements[++top] = item;
+    }
+
+    public char pop() {
+        if (!isEmpty()) {
+            return elements[top--];
+        }
+        return '\0'; // Return '\0' for an empty stack
+    }
+
+    public char peek() {
+        if (!isEmpty()) {
+            return elements[top];
+        }
+        return '\0'; // Return '\0' for an empty stack
+    }
+
+    public boolean isEmpty() {
+        return top == -1;
+    }
+
+    public int getPrecedence(char operator) {
         switch (operator) {
             case '+':
             case '-':
@@ -81,37 +145,5 @@ public class CustomQueue {
                 return 2;
         }
         return 0; // Default for other characters
-    }
-}
-
-class CustomStack {
-    private List<Character> elements;
-
-    public CustomStack() {
-        elements = new ArrayList<>();
-    }
-
-    public void push(char item) {
-        elements.add(item);
-    }
-
-    public char pop() {
-        if (!isEmpty()) {
-            char item = elements.get(elements.size() - 1);
-            elements.remove(elements.size() - 1);
-            return item;
-        }
-        return '\0'; // Return '\0' for an empty stack
-    }
-
-    public char peek() {
-        if (!isEmpty()) {
-            return elements.get(elements.size() - 1);
-        }
-        return '\0'; // Return '\0' for an empty stack
-    }
-
-    public boolean isEmpty() {
-        return elements.isEmpty();
     }
 }
